@@ -1,0 +1,20 @@
+{
+  "name": "Case",
+  "version": "1.0.0",
+  "description": "\"# Case Técnico de um Processo Seletivo \"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/renevictorm/Case-T-cnico-.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/renevictorm/Case-T-cnico-/issues"
+  },
+  "homepage": "https://github.com/renevictorm/Case-T-cnico-#readme"
+}
