@@ -2,21 +2,23 @@ const restful = require ('node-restful')
 const mongoose = restful.mongoose 
 
 const caseSchema = new mongoose.Schema({
-    merchantCnpj: {type: String, require:true},
-    checkoutCode: {type: Number, require:true},
-    cipheredCardNumber: {type: String, require:true},
-    amountInCents: {type: Number, require:true},
-    installments: {type: Number, require:true},
-    aquirerName: {type: String, require:true},
-    paymentMehod: {type: String, require:true},
-    cardBrandName: {type: String, require:true},
-    status: {type: String, require:true},
-    statusInfo: {type: String, require:true},
-    CreatedAt: {type: Date, require:true},
-    AcquirerAuthorizationDateTime: {type: Date, require:true}
+    merchantCnpj: {type: String, require:false},
+    checkoutCode: {type: Number, require:false},
+    cipheredCardNumber: {type: String, require:false},
+    amountInCents: {type: Number, require:false},
+    installments: {type: Number, require:false},
+    aquirerName: {type: String, require:false},
+    paymentMehod: {type: String, require:false},
+    cardBrandName: {type: String, require:false},
+    status: {type: String, require:false},
+    statusInfo: {type: String, require:false},
+    CreatedAt: {type: Date, require:false},
+    AcquirerAuthorizationDateTime: {type: Date, require:false}
 
 })
 
+
+//Validação do CNPJ
 caseSchema.path('merchantCnpj').validate(function(merchantCnpj) 
 {   cnpjSplit = merchantCnpj.split("");  
     //Checando o primeiro dígito
@@ -49,8 +51,25 @@ caseSchema.path('merchantCnpj').validate(function(merchantCnpj)
 
 
     if ( (checkerTwo) == (parseInt(cnpjSplit[13]))) {  return true }else{return false}
+
 }, '{PATH} falhou na validação.');
 
 
+
+//Validação do checkoutCode
+caseSchema.path('checkoutCode').validate(function(checkoutCode) 
+{ 
+    if(checkoutCode>99999 || checkoutCode<0 ){ return false;}else{return true}
+
+}, '{PATH} falhou na validação.');
+
+
+
+//Validação do checkoutCode
+caseSchema.path('amountInCents').validate(function(amountInCents) 
+{ 
+    if(amountInCents<0 ){ return false;}else{return true}
+
+}, '{PATH} falhou na validação.');
 
 module.exports = restful.model('Case', caseSchema)
