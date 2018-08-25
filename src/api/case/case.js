@@ -1,5 +1,5 @@
 const restful = require ('node-restful')
-constmongoose = restful.mongoose 
+const mongoose = restful.mongoose 
 
 const caseSchema = new mongoose.Schema({
     merchantCnpj: {type: String, require:true},
