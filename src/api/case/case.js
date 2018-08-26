@@ -9,9 +9,9 @@ const caseSchema = new mongoose.Schema({
     installments: {type: Number, require:false},
     aquirerName: {type: String, enum:['Stone', 'Cielo', 'Rede', 'GetNet','Redecard','Bin','Elavon'] ,require:false},
     paymentMethod: {type: String, enum: ['Voucher', 'Débito à Vista', 'Crédito à Vista','Crédito Parcelado','Crédito Parcelado Loja'] ,require:false},
-    cardBrandName: {type: String, require:false},
-    status: {type: String, require:false},
-    statusInfo: {type: String, require:false},
+    cardBrandName: {type: String, enum:['Elo Debito', 'Sodexo Refeicao','Sodexo','Elo', 'Visa','Maestro','Mastercard','Alelo Refeicao','Electron','Alelo','Credz'],require:false},
+    status: {type: String, enum:['Aprovado', 'Reprovado'],require:false},
+    statusInfo: {type: String,require:false},
     CreatedAt: {type: Date, require:false},
     AcquirerAuthorizationDateTime: {type: Date, require:false}
 
