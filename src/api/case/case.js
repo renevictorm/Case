@@ -7,8 +7,8 @@ const caseSchema = new mongoose.Schema({
     cipheredCardNumber: {type: String, require:false},
     amountInCents: {type: Number, require:false},
     installments: {type: Number, require:false},
-    aquirerName: {type: String, require:false},
-    paymentMehod: {type: String, require:false},
+    aquirerName: {type: String, enum:['Stone', 'Cielo', 'Rede', 'GetNet','Redecard','Bin','Elavon'] ,require:false},
+    paymentMethod: {type: String, enum: ['Voucher', 'Débito à Vista', 'Crédito à Vista','Crédito Parcelado','Crédito Parcelado Loja'] ,require:false},
     cardBrandName: {type: String, require:false},
     status: {type: String, require:false},
     statusInfo: {type: String, require:false},
@@ -73,3 +73,12 @@ caseSchema.path('amountInCents').validate(function(amountInCents)
 }, '{PATH} falhou na validação.');
 
 module.exports = restful.model('Case', caseSchema)
+
+/*
+caseSchema.path('amountInCents').validate(function(amountInCents, ) 
+{ 
+    if(amountInCents<0 ){ return false;}else{return true}
+
+}, '{PATH} falhou na validação.');
+
+module.exports = restful.model('Case', caseSchema) */
