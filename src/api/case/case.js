@@ -1,5 +1,7 @@
 const restful = require ('node-restful')
 const mongoose = restful.mongoose 
+SALT_WORK_FACTOR = 2;
+const bcrypt = require('bcrypt');
 
 const caseSchema = new mongoose.Schema({
     merchantCnpj: {type: String, require:false},
@@ -16,11 +18,54 @@ const caseSchema = new mongoose.Schema({
     AcquirerAuthorizationDateTime: {type: Date, require:false}
 
 })
+/* 
 
+//Essa é uma alternativa a utilizar apenas uma substituição simples... 
+//Aqui é feito um hash com os números do cartão exceto os últimos 4 números do cartão e guarda apenas a hash mais os últimos dígitos.
+
+caseSchema.pre('save', function(next) {
+    var caso = this;
+
+   
+    if (!caso.isModified('cipheredCardNumber')) return next();
+
+    // generate a salt
+    bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) 
+    {
+        if (err) return next(err);
+
+        // hash the password along with our new salt
+        var final = caso.cipheredCardNumber.slice(caso.cipheredCardNumber.length -4, caso.cipheredCardNumber.length);
+        var str = caso.cipheredCardNumber.slice(0, caso.cipheredCardNumber.length-4);
+        bcrypt.hash(str, salt, function(err, hash) 
+        {
+            if (err) return next(err);
+
+            // override the cleartext password with the hashed one
+            caso.cipheredCardNumber = hash + final;
+            next();
+        });
+    });
+});*/
+
+//Apenas cifra os dígitos (exceto os últimos 4 ) para não guardar dados do cartão dos cliente no DB.
+caseSchema.pre('save', function(next) {
+    var caso = this;
+
+   
+    if (!caso.isModified('cipheredCardNumber')) return next();
+
+    
+    var final = caso.cipheredCardNumber.slice(caso.cipheredCardNumber.length -4, caso.cipheredCardNumber.length);
+    caso.cipheredCardNumber = "************" + final;
+     next();
+      
+});
 
 //Validação do CNPJ
 caseSchema.path('merchantCnpj').validate(function(merchantCnpj) 
-{   cnpjSplit = merchantCnpj.split("");  
+{   
+    cnpjSplit = merchantCnpj.split("");  
     //Checando o primeiro dígito
     
     weightsOne = [5,4,3,2,9,8,7,6,5,4,3,2 ];
@@ -74,11 +119,3 @@ caseSchema.path('amountInCents').validate(function(amountInCents)
 
 module.exports = restful.model('Case', caseSchema)
 
-/*
-caseSchema.path('amountInCents').validate(function(amountInCents, ) 
-{ 
-    if(amountInCents<0 ){ return false;}else{return true}
-
-}, '{PATH} falhou na validação.');
-
-module.exports = restful.model('Case', caseSchema) */
