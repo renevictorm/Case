@@ -1,7 +1,7 @@
 const restful = require ('node-restful')
 const mongoose = restful.mongoose 
-SALT_WORK_FACTOR = 2;
-const bcrypt = require('bcrypt');
+//SALT_WORK_FACTOR = 2;
+//const bcrypt = require('bcrypt');
 
 const caseSchema = new mongoose.Schema({
     merchantCnpj: {type: String, require:false},
@@ -48,7 +48,9 @@ caseSchema.pre('save', function(next) {
     });
 });*/
 
-//Apenas cifra os dígitos (exceto os últimos 4 ) para não guardar dados do cartão dos cliente no DB.
+
+
+//Apenas substitui os dígitos (exceto os últimos 4 ) para * com o objetvo de não guardar dados do cartão dos cliente no DB.
 caseSchema.pre('save', function(next) {
     var caso = this;
 
@@ -116,6 +118,31 @@ caseSchema.path('amountInCents').validate(function(amountInCents)
     if(amountInCents<0 ){ return false;}else{return true}
 
 }, '{PATH} falhou na validação.');
+
+
+//Validação dos installments and paymentMethod
+caseSchema.path('installments').validate(function(installments) 
+{   
+    var caso = this;
+
+    if(installments>1 )
+    { 
+        if(caso.paymentMethod =="Crédito Parcelado" || caso.paymentMethod == 'Crédito Parcelado Loja'){return true;}else{return false;}
+        
+    }
+
+    
+    if(installments<=0 )
+    {
+        return false;
+
+    }if(installments == 1)
+    {
+        if(caso.paymentMethod =='Voucher' || caso.paymentMethod == 'Débito à Vista' || caso.paymentMethod == 'Crédito à Vista'){return true;}else{return false;}
+
+    }
+
+}, '{PATH} falhou na validação. o número de parcelas deve ser maior que 0 e deve corresponder ao modo de pagamento, à vista apenas uma parcela e parcelado mais de uma');
 
 module.exports = restful.model('Case', caseSchema)
 
