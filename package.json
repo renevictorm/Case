@@ -3,23 +3,27 @@
   "version": "1.0.0",
   "description": "\"# Case Técnico de um Processo Seletivo \"",
   "main": "src/loader.js",
-  "scripts": {
+  "scripts":
+   {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon",
     "production": "pm2 start src/loader.js --name case-api"
   },
-  "repository": {
+  "repository": 
+  {
     "type": "git",
     "url": "git+https://github.com/renevictorm/Case-T-cnico-.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
+  "bugs": 
+  {
     "url": "https://github.com/renevictorm/Case-T-cnico-/issues"
   },
   "homepage": "https://github.com/renevictorm/Case-T-cnico-#readme",
-  "devDependencies": {
+  "devDependencies": 
+  {
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "mongoose": "^4.7.0",
@@ -27,7 +31,8 @@
     "nodemon": "^1.11.0",
     "pm2": "^2.1.5"
   },
-  "dependencies": {
+  "dependencies": 
+  {
     "bcrypt": "^3.0.0"
   }
 }

@@ -3,19 +3,20 @@ const mongoose = restful.mongoose
 //SALT_WORK_FACTOR = 2;
 //const bcrypt = require('bcrypt');
 
-const caseSchema = new mongoose.Schema({
-    merchantCnpj: {type: String, require:false},
-    checkoutCode: {type: Number, require:false},
-    cipheredCardNumber: {type: String, require:false},
-    amountInCents: {type: Number, require:false},
-    installments: {type: Number, require:false},
-    aquirerName: {type: String, enum:['Stone', 'Cielo', 'Rede', 'GetNet','Redecard','Bin','Elavon'] ,require:false},
-    paymentMethod: {type: String, enum: ['Voucher', 'Débito à Vista', 'Crédito à Vista','Crédito Parcelado','Crédito Parcelado Loja'] ,require:false},
-    cardBrandName: {type: String, enum:['Elo Debito', 'Sodexo Refeicao','Sodexo','Elo', 'Visa','Maestro','Mastercard','Alelo Refeicao','Electron','Alelo','Credz'],require:false},
-    status: {type: String, enum:['Aprovado', 'Reprovado'],require:false},
-    statusInfo: {type: String,require:false},
-    CreatedAt: {type: Date, require:false},
-    AcquirerAuthorizationDateTime: {type: Date, require:false}
+const caseSchema = new mongoose.Schema(
+{
+    merchantCnpj: {type: String, require:true},
+    checkoutCode: {type: Number, require:true},
+    cipheredCardNumber: {type: String, require:true},
+    amountInCents: {type: Number, require:true},
+    installments: {type: Number, require:true},
+    aquirerName: {type: String, enum:['Stone', 'Cielo', 'Rede', 'GetNet','Redecard','Bin','Elavon'] ,require:true},
+    paymentMethod: {type: String, enum: ['Voucher', 'Débito à Vista', 'Crédito à Vista','Crédito Parcelado','Crédito Parcelado Loja'] ,require:true},
+    cardBrandName: {type: String, enum:['Elo Debito', 'Sodexo Refeicao','Sodexo','Elo', 'Visa','Maestro','Mastercard','Alelo Refeicao','Electron','Alelo','Credz'],require:true},
+    status: {type: String, enum:['Aprovado', 'Reprovado'],require:true},
+    statusInfo: {type: String,require:true},
+    CreatedAt: {type: Date, require:true},
+    AcquirerAuthorizationDateTime: {type: Date, require:true}
 
 })
 /* 
@@ -51,7 +52,8 @@ caseSchema.pre('save', function(next) {
 
 
 //Apenas substitui os dígitos (exceto os últimos 4 ) para * com o objetvo de não guardar dados do cartão dos cliente no DB.
-caseSchema.pre('save', function(next) {
+caseSchema.pre('save', function(next) 
+{
     var caso = this;
 
    
